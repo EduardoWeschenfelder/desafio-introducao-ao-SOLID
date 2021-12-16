@@ -1,0 +1,221 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Atlas",
+    "description": "Esta é a documentação sobre a Atlas api",
+    "version": "1.0.0",
+    "contact": {
+      "email": "eduardo@etc.digital"
+    }
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "sumary": "Gerenciamento de usuarios",
+        "description": "Gerenciamento de usuarios",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Ana",
+                  "email": "ana@email.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "admin": false,
+                    "id": "andfajja03-iefebu39-asiriw34",
+                    "name": "Ana",
+                    "email": "ana@email.com",
+                    "created_at": "",
+                    "updated_at": ""
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Email já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "User already exists!"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "in": "header",
+            "description": "string (uuid)",
+            "name": "user_id",
+            "type": "string",
+            "required": "true"
+          }
+        ],
+        "tags": ["User"],
+        "description": "Somente Admin pode acessar esta rota",
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    {
+                      "admin": true,
+                      "id": "12jakf3-fhi3r92ru-asiriw34",
+                      "name": "Eduardo",
+                      "email": "eduardo@etc.digital",
+                      "created_at": "2021-12-15 13:43:51.066",
+                      "updated_at": "2021-12-15 13:43:51.066"
+                    },
+                    {
+                      "admin": false,
+                      "id": "andfajja03-iefebu39-asiriw34",
+                      "name": "Ana",
+                      "email": "ana@email.com",
+                      "created_at": "2021-12-16 13:43:51.066",
+                      "updated_at": "2021-12-16 13:43:51.066"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuario sem premissão ou usuario não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "You need to be an admin to list all users"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "description": "retorna um usuario especifico",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "description": "ID do usuario",
+            "name": "userd_id - ID do usuario",
+            "type": "string",
+            "required": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "admin": false,
+                    "id": "andfajja03-iefebu39-asiriw34",
+                    "name": "Ana",
+                    "email": "ana@email.com",
+                    "created_at": "2021-12-16 13:43:51.066",
+                    "updated_at": "2021-12-16 13:43:51.066"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuario não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "User not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/user/{user_id}/admin": {
+      "patch": {
+        "description": "torna admin um user",
+        "tags": ["User"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userd_id",
+            "type": "string",
+            "required": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "admin": true,
+                    "id": "12jakf3-fhi3r92ru-asiriw34",
+                    "name": "Eduardo",
+                    "email": "eduardo@etc.digital",
+                    "created_at": "2021-12-15 13:43:51.066",
+                    "updated_at": "2021-12-15 13:43:51.066"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Usuario não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "error": "user not found."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
